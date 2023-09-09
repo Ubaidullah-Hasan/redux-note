@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const { createStore, conbineReducer, combineReducers } = require('redux');
+const { createStore, combineReducers } = require('redux');
 
 const increment = "increment";
 const decrement = "decrement";
