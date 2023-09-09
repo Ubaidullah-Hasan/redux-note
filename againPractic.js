@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const { createStore } = require('redux');
+const { createStore, conbineReducer, combineReducers } = require('redux');
 
 const increment = "increment";
 const decrement = "decrement";
@@ -20,7 +20,6 @@ const decrementCount = () => {
         type: decrement,
     }
 }
-
 const resetCounter = () => {
     return {
         type: reset
@@ -28,7 +27,7 @@ const resetCounter = () => {
 }
 
 // payload use 
-const increment_by_value = 'inctement by value'
+const increment_by_value = 'inctement by value';
 const incrementByValue = (value) => {
     return {
         type: increment_by_value,
@@ -103,7 +102,7 @@ const reducerAddUser = (state = addUserState, action) => {
             }
 
         default:
-            state;
+            return state;
     }
 }
 
@@ -111,6 +110,21 @@ const userStore = createStore(reducerAddUser);
 userStore.subscribe(() => {
     console.log(userStore.getState());
 });
-userStore.dispatch(addNewUser("rahim"));
-userStore.dispatch(addNewUser("karim"));
-userStore.dispatch(addNewUser("jabbar"));
+// userStore.dispatch(addNewUser("rahim"));
+// userStore.dispatch(addNewUser("karim"));
+// userStore.dispatch(addNewUser("jabbar"));
+
+// multiple reducers use
+const rootReducer = combineReducers({
+    counterR: reducerCounter,
+    userR: reducerAddUser
+})
+
+const multipleReducerStore = createStore(rootReducer);
+multipleReducerStore.subscribe(()=> {
+    console.log(multipleReducerStore.getState());
+})
+multipleReducerStore.dispatch(incrementCount());
+multipleReducerStore.dispatch(incrementByValue(10));
+multipleReducerStore.dispatch(addNewUser("New User"));
+
